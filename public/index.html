@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+    <html lang="en">
+      <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <title></title>
+        <!-- Horizon CSS -->
+        <link href="https://www.principalcdn.com/css/horizon/v2/horizon.min.css" rel="stylesheet">
+        <!-- Application specific CSS -->
+       
+        <!-- Optional favicon and apple/android homescreen icons -->
+        <meta name="mobile-web-app-capable" content="yes">
+        <link rel="shortcut icon" type="image/x-icon" href="https://www.principalcdn.com/css/horizon/v2/favicon.ico">
+        <link rel="shortcut icon" type="image/x-icon" href="https://www.principalcdn.com/css/horizon/v2/apple-touch-icon.png">
+      </head>
+      <body>
+
+         <nav class="navbar navbar-default">
+        <div class="container-fluid">
+          <div class="navbar-header">
+            <a class="navbar-principal-brand" href="#">
+            </a>
+          </div>
+        </div>
+      </nav>
+        <!-- YOUR APP CONTENT HERE -->
+        <!-- Horizon JS -->
+        <div class="container">
+        <form role="form">
+      <div class="form-group">
+        <label for="exampleInputEmail1">Notification Title</label>
+        <input class="form-control" id="titlee" placeholder="Notification Title">
+      </div>
+      <div class="form-group">
+        <label for="exampleInputPassword1">Message</label>
+        <input class="form-control" id="message" placeholder="Message">
+      </div>
+
+      <div class="form-group">
+        <label for="exampleInputPassword1">Category</label>
+        <input class="form-control" id="catefory" placeholder="Category">
+      </div>
+
+      <div class="form-group">
+        <label for="exampleInputPassword1">On click Url</label>
+        <input class="form-control" id="url" placeholder="On click Url">
+      </div>
+
+      <div class="form-group">
+        <label for="exampleInputPassword1">EnterpriseId</label>
+        <input class="form-control" id="eid" placeholder="EnterpriseId">
+      </div>
+
+ <!--      <div class="checkbox styled-checkbox">
+        <input type="checkbox" id="checkbox2">
+        <label for="checkbox2">Check me out</label>
+      </div> -->
+      <button type="button" onclick="myFunction()" class="btn btn-primary">Submit</button>
+    </form>
+
+<br>
+</div>
+
+
+<footer class="footer">
+    <section class="footer-row">
+        <nav>
+            <ul class="nav nav-inline">
+                <li><a href="https://www.principal.com/terms-of-use">Terms of Use</a></li>
+                <li><a href="https://www.principal.com/products-services-disclosures">Disclosures</a></li>
+                <li><a href="https://www.principal.com/privacy-policies">Privacy</a></li>
+                <li><a href="https://www.principal.com/security-policies">Security</a></li>
+                <li><a href="https://www.principal.com/about-us/our-company/policies/report-fraud-or-unethical-conduct">Report Fraud</a></li>
+                <li><a href="#placeholder">Site Map</a></li>
+            </ul>
+        </nav>
+        <div class="footer-legal">
+            <p>&copy; 2016, Principal Financial Services, Inc.</p>
+            <p>Securities offered through Principal Securities, Inc., <a href="http://www.sipc.org">member SIPC</a></p>
+        </div>
+    </section>
+</footer>
+        
+        <script src="https://www.principalcdn.com/css/horizon/v2/horizon.min.js"></script>
+        <!-- Application specific JS -->
+        <script src="[URL TO APP JS]"></script>
+
+        <script type="text/javascript">
+          function myFunction() {
+            console.log('Inside myFunction');
+            if(document.getElementById("eid").value)
+            var subs = {header:document.getElementById("titlee").value, message:document.getElementById("message").value, category:document.getElementById("catefory").value, url: document.getElementById("url").value, eid:document.getElementById("eid").value};
+          
+          else
+             var subs = {header:document.getElementById("titlee").value, message:document.getElementById("message").value, category:document.getElementById("catefory").value, url: document.getElementById("url").value};
+   fetch('https://webpushnotifications.herokuapp.com/api/send-notification/', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(subs) 
+  })
+  .then(function(response) {
+    if (!response.ok) {
+      console.log('Error');
+      throw new Error('Bad status code from server.');
+    }
+
+    return response.json();
+  })
+  .then(function(responseData) {
+    console.log('No Error');
+    if (!(responseData.data && responseData.data.success)) {
+      throw new Error('Bad response from server.');
+    }
+  });
+          }
+        </script>
+      </body>
+    </html>
